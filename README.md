@@ -1,4 +1,4 @@
-# IoT Data Streaming API
+# IoT Sensors Data Streaming API
 
 A Spring Boot-based REST API to ingest, store, and aggregate data from simulated IoT sensors (e.g., temperature, humidity).
 

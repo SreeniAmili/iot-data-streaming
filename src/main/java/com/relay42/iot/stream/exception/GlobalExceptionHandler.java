@@ -63,24 +63,24 @@ public class GlobalExceptionHandler {
 
     // ---------- 404 handlers ----------
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNoHandlerFound(NoHandlerFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleNoHandlerFoundException(NoHandlerFoundException ex) {
         return buildError(HttpStatus.NOT_FOUND, "Endpoint not found", null);
     }
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException ex) {
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(NoResourceFoundException ex) {
         return buildError(HttpStatus.NOT_FOUND, "Resource not found", null);
     }
 
     // ---------- Business logic exceptions ----------
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusiness(BusinessException ex) {
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
         return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), null);
     }
 
     // ---------- Fallback ----------
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         log.error("Unexpected error occurred", ex);
         return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error", null);
     }

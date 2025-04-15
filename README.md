@@ -186,4 +186,3 @@ Supports multiple Spring profiles.
 
 
 **Author**: Sreenivasulu A  
-**Assignment**: Relay42 Technical Assessment

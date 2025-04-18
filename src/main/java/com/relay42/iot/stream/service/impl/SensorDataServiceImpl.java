@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -51,5 +52,10 @@ public class SensorDataServiceImpl implements SensorDataService {
     @Transactional(readOnly = true)
     public List<SensorData> getSensorData(String deviceId, String metric) {
         return repository.findByDeviceIdAndMetric(deviceId, metric);
+    }
+
+    @Override
+    public List<SensorData> getDataInRange(String deviceId, String metric, LocalDateTime from, LocalDateTime to) {
+        return repository.findByDeviceIdAndMetricAndTimestampRange(deviceId, metric, from, to);
     }
 }

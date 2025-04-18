@@ -56,3 +56,9 @@ simulator:
   fixed-rate-ms: 2000
   max-records: 100
   allow-spikes: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

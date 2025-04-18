@@ -19,11 +19,12 @@ A Spring Boot-based REST API to ingest, store, and aggregate data from simulated
 
 ## 🚀 How to Run the Application
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/SreeniAmili/iot-data-streaming.git
-cd iot-data-streaming
-```
+### 1. Extract the Source Code
+
+If you've downloaded the project as a ZIP file:
+
+1. Unzip the downloaded archive.
+2. Open a terminal and navigate to the extracted folder:
 
 ### 2. Build with Maven
 ```bash

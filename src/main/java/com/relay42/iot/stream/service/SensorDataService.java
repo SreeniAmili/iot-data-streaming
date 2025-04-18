@@ -2,6 +2,7 @@ package com.relay42.iot.stream.service;
 
 import com.relay42.iot.stream.entity.SensorData;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -25,4 +26,6 @@ public interface SensorDataService {
      * @return a list of SensorData entities matching the specified device and metric.
      */
     List<SensorData> getSensorData(String deviceId, String metric);
+
+    List<SensorData> getDataInRange(String deviceId, String metric, LocalDateTime from, LocalDateTime to);
 }

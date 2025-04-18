@@ -140,37 +140,34 @@ public class SensorDataControllerV1 {
             @ApiResponse(responseCode = "400", description = "Invalid request parameters",
                     content = @Content(schema = @Schema(implementation = SensorResponse.class)))
     })
+
     @GetMapping("/data/stats/range")
     public ResponseEntity<SensorResponse<MetricSummary>> getSensorDataStatsByTimeRange(
-            @RequestParam @NotBlank(message = "deviceId cannot be blank") String deviceId,
-            @RequestParam @NotBlank(message = "metric cannot be blank") String metric,
+            @RequestParam @NotBlank String deviceId,
+            @RequestParam @NotBlank String metric,
             @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to
+    ) {
+        List<SensorData> dataList = service.getDataInRange(deviceId, metric, from, to);
 
-        log.info("Entered into method ::getSensorDataStatsByTimeRange");
-        log.info("Fetching stats for device [{}] and metric [{}]", deviceId, metric);
-
-        List<SensorData> dataList = service.getSensorData(deviceId, metric);
-        List<SensorData> filtered = TimeFilter.filterByRange(dataList, from, to);
-
-        if (filtered.isEmpty()) {
+        if (dataList.isEmpty()) {
             return ResponseEntity.ok(
                     SensorResponse.<MetricSummary>builder()
-                            .success(false)
-                            .message("No data in specified range")
+                            .success(true)
+                            .message("No data found in given range")
                             .data(null)
                             .build()
             );
         }
 
-        MetricSummary result = strategyFactory.getStrategy(metric).aggregateMetrics(metric, filtered);
-
-        log.info("Exit from method ::getSensorDataStatsByTimeRange");
+        MetricSummary result = strategyFactory
+                .getStrategy(metric)
+                .aggregateMetrics(metric, dataList);
 
         return ResponseEntity.ok(
                 SensorResponse.<MetricSummary>builder()
                         .success(true)
-                        .message("Data in specified range retrieved successfully")
+                        .message("Aggregated stats in range")
                         .data(result)
                         .build()
         );

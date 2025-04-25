@@ -1,13 +1,31 @@
-name: Test Runner Connection
+name: Build and Deploy Spring Boot IoT App
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  test-runner:
+  build-and-deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Echo step
-        run: echo "🎉 GitHub runner is working!"
+      - name: Echo test step
+        run: echo "Hello from the runner machine!"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build Spring Boot App
+        run: ./mvnw clean package -DskipTests
+
+      - name: Build Docker Image
+        run: docker build -t iot-app:latest .
+
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f helm-releases/dev.yml
